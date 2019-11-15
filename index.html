@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+​
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eye Visualization</title>
+<!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+</head>​
+
+<body>
+
+​<table align="center" cellpadding="10" border="0">
+    <tr>
+        <td id="svgContainer" align="right">
+            <svg height="600" width="700" id="mySvg"></svg>
+        </td>
+
+        <td>
+            <div id="info" align="right">
+                <table align="right" cellpadding="10" border="0">
+                    <tr>
+                        <table cellpadding="10" border="1">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col" colspan="3">
+                                    STATISTICS
+                                </th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td></td>
+                                <td>PASS</td>
+                                <td>FAIL</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tree</td>
+                                <td id="treePassCount"></td>
+                                <td id="treeFailCount"></td>
+                            </tr>
+
+                            <tr>
+                                <td>Graph</td>
+                                <td id="graphPassCount"></td>
+                                <td id="graphFailCount"></td>
+                            </tr>
+
+                            <tr>
+                                <td>Avg. Success Rate</td>
+                                <td id="avgPassSuccessRate"></td>
+                                <td id="avgFailSuccessRate"></td>
+                            </tr>
+
+                            <tr>
+                                <td>Avg. Time Rate</td>
+                                <td id="avgPassTime"></td>
+                                <td id="avgFailTime"></td>
+                            </tr>
+
+                            <tr>
+                                <td>Avg. Fixation Rate</td>
+                                <td id="avgPassFixation"></td>
+                                <td id="avgFailFixation"></td>
+                            </tr>
+
+                            <tr style="border-right:none; border-left:none; border-bottom:none; border-top:none; border: 0px; height: 15px">
+                            </tr>
+
+                            <tr>
+                                <th colspan="3">SUCCESS RATE</th>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <h2 id="successRateLabel" align="center">0.0</h2><br>
+                                        <div class="slider-container pt-2 unselectable mb-2">
+                                        <input type="range" min="0" max="530" value="5.3" class="slider" style="width: 350px" id="successRate" oninput="successRateUpdated()">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tr>
+                        </table>
+
+                    </tr>
+
+
+                </table>
+
+            </div>
+        </td>
+    </tr>
+</table>
+
+</body>
+​
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="demo2_2.js"></script>
+​
+</html>
