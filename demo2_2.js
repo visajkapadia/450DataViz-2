@@ -188,7 +188,8 @@ var type;
         .on('mouseover', function(d, i) {
             msg = "<b>Participant: </b>" + d.id + "<br>" +
                   "<b>Success Rate: </b>" + d.success + "<br>" +
-                "<b>Time: </b>" + d.time;
+                "<b>Time: </b>" + d.time + "<br>" +
+                "<b>Fixation: </b>" + d.fixation;
             tooltip.html(msg);
             tooltip.style("visibility", "visible");
 
@@ -248,7 +249,8 @@ var type;
 
             msg = "<b>Participant: </b>" + d.id + "<br>" +
                 "<b>Success Rate: </b>" + d.success + "<br>" +
-            "<b>Time: </b>" + d.time;
+            "<b>Time: </b>" + d.time + "<br>" +
+            "<b>Fixation: </b>" + d.fixation;
             tooltip.html(msg);
             tooltip.style("visibility", "visible");
             d3.select('#details').html(msg);
@@ -380,20 +382,44 @@ function calculateStatistics() {
     var passFixation = 0;
     var failFixation = 0;
 
-    
+    var passSuccessRate = 0;
+    var failSuccessRate = 0;
 
-    // todo: check circle for graph???
     var graphPassPoints =  d3.selectAll("circle")
-        .filter(function(d) { if (d.success >= currentSuccessRate) {passTimes += d.time; passCount += 1; passFixation += d.fixation;  return d;}});
+        .filter(function(d) { if (d.success >= currentSuccessRate) {
+            passSuccessRate+= d.success;
+            passTimes += d.time;
+            passCount += 1;
+            passFixation += d.fixation;
+            return d;
+        }});
 
     var treePassPoints =  d3.selectAll("rect")
-        .filter(function(d) { if (d.success >= currentSuccessRate) {passTimes += d.time; passCount += 1; passFixation += d.fixation; return d;}});
+        .filter(function(d) { if (d.success >= currentSuccessRate) {
+            passSuccessRate+= d.success;
+            passTimes += d.time;
+            passCount += 1;
+            passFixation += d.fixation;
+            return d;}
+        });
 
     var treeFailPoints =  d3.selectAll("rect")
-        .filter(function(d) { if (d.success < currentSuccessRate) {failTimes += d.time; failCount += 1; failFixation += d.fixation; return d;}});
+        .filter(function(d) { if (d.success < currentSuccessRate) {
+            failSuccessRate += d.success;
+            failTimes += d.time;
+            failCount += 1;
+            failFixation += d.fixation;
+            return d;
+        }});
 
     var graphFailPoints =  d3.selectAll("circle")
-        .filter(function(d) { if (d.success < currentSuccessRate) {failTimes += d.time; failCount += 1; failFixation += d.fixation; return d;}});
+        .filter(function(d) { if (d.success < currentSuccessRate) {
+            failSuccessRate += d.success;
+            failTimes += d.time;
+            failCount += 1;
+            failFixation += d.fixation;
+            return d;
+        }});
 
     var treePass = document.getElementById("treePassCount");
     treePass.innerText = treePassPoints.size();
@@ -409,33 +435,47 @@ function calculateStatistics() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    var avgSuccess = document.getElementById("avgPassSuccessRate");  //Get the averages success Rate
-   var valueAvgP = (graphPassPoints.size() + treePassPoints.size()) / (totalRect + totalCircle);
-   
+    var valueAvgP = 0.0;
+    if(!((treePassPoints.size() + graphPassPoints.size()) === 0)) {
+        valueAvgP = (passSuccessRate) / (treePassPoints.size() + graphPassPoints.size());
+    }
    avgSuccess.innerText =  formatDecimal(valueAvgP);
 
-   var avgFail = document.getElementById("avgFailSuccessRate");     //Get the average fail Rate 
-   var valueAvgF = (graphFailPoints.size() + treeFailPoints.size()) / (totalRect + totalCircle);
+   var avgFail = document.getElementById("avgFailSuccessRate");     //Get the average fail Rate
+    var valueAvgF = 0.0;
+    if(!((treeFailPoints.size() + graphFailPoints.size()) === 0)) {
+        valueAvgF = (failSuccessRate) / (treeFailPoints.size() + graphFailPoints.size());
+    }
 
    avgFail.innerText = formatDecimal(valueAvgF);
 //--------------------------------------------------------------------------
-  var timePass = document.getElementById("avgPassTime");  //Get average time of the ones that passed 
-   var tpComp = passTimes / passCount;
+  var timePass = document.getElementById("avgPassTime");  //Get average time of the ones that passed
+  var tpComp = 0.0;
+    if(!(passCount === 0)) {
+        tpComp = passTimes / passCount;
+    }
 
    timePass.innerText = formatDecimal(tpComp);
 
-   var timeFail = document.getElementById("avgFailTime"); //Get average time of the ones that failed 
-   var tfComp = failTimes / failCount;
-
+   var timeFail = document.getElementById("avgFailTime"); //Get average time of the ones that failed
+    var tfComp = 0.0;
+   if(!(failCount === 0)) {
+       tfComp = failTimes / failCount;
+   }
    timeFail.innerText = formatDecimal(tfComp);
 //-------------------------------------------------------------------------------------------------------
-   var pFix = document.getElementById("avgPassFixation");  //Get average fixation for passing 
-   var pfComp = passFixation / passCount;
-
+   var pFix = document.getElementById("avgPassFixation");  //Get average fixation for passing
+    var pfComp = 0.0;
+    if(!(passCount === 0)) {
+        pfComp = passFixation / passCount;
+    }
    pFix.innerText = formatDecimal(pfComp);
 
    var fFix = document.getElementById("avgFailFixation");  //Get average fixation for fail
-   var ffComp = failFixation / failCount;
-
+    var ffComp = 0.0;
+    if(!(failCount === 0 )) {
+        ffComp = failFixation / failCount;
+    }
    fFix.innerText = formatDecimal(ffComp);
    
 
